@@ -1,0 +1,49 @@
+using System;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class player  : MonoBehaviour
+{
+	private CharacterController controller;
+	private Vector3 moveDirection;
+	private int counter = 0;
+	const int counterMax = 1;
+	[SerializeField] float jump_Force = 5;
+	///[SerializeField] int[] status;//配列出ちゃうよ
+	//public GameObject ballPrefab;
+
+
+	void Start () {
+		controller = GetComponent<CharacterController>();
+	}
+
+	void Update ()
+	{
+		if (Input.GetKeyDown (KeyCode.Space)) {
+
+			if (counter == counterMax) {
+				//Instantiate (this.ballPrefab);
+
+				//Debug.Log ("count");
+				if (!controller.isGrounded) { 
+					moveDirection.y = jump_Force; //ジャンプするベクトルの代入
+				}
+
+				counter = 0;
+			}
+			if (controller.isGrounded) {
+				counter++;
+				//Debug.Log("space");
+
+				moveDirection.y = jump_Force + 1; //ジャンプするベクトルの代入
+			}
+
+		
+		}
+	
+		moveDirection.y -= 10 * Time.deltaTime; //重力計算
+		controller.Move (moveDirection * Time.deltaTime); //cubeを動かす処理
+	}
+
+}
